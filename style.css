@@ -1,0 +1,22 @@
+#instructions {
+    width: 100%;
+    margin: 8px 0;
+    padding-left:0;
+    padding-top:0;
+    padding-bottom:0.1em;
+    padding-right: 0.1em;
+}
+
+#result {
+    width: 100%;
+    margin: 8px 0;
+    padding-left:0;
+    padding-top:0;
+    padding-bottom:0.1em;
+    padding-right: 0.1em;
+    visibility: hidden;
+}
+
+#btnCopy {
+    visibility: hidden;
+}
