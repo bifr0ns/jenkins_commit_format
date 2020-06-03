@@ -1,10 +1,11 @@
 function giveFormat(editor) {
     var text = document.getElementById("instructions").value;
+    var textFormated;
 
-    if (text == null) return 0;
-    if (editor == "svn") {
-        var textFormated = svnFormat(text);
+    if (text == "") return 0;
+    textFormated = editor == "Smart" ? smartFormat(text) : tortoiseFormat(text);
 
+    if (textFormated.length > 0) {
         result.style.visibility = "visible";
         btnCopy.style.visibility = "visible";
 
@@ -12,20 +13,38 @@ function giveFormat(editor) {
     }
 }
 
-function svnFormat(text) {
-    var var1 = text.split("\n");
+function smartFormat(text) {
+    var lines = text.split("\n");
 
-    for (i = 0; i < var1.length; i++) {
-        var1[i] = var1[i].replace(",", "@");
-        var1[i] = var1[i].substr(1);
+    for (i = 0; i < lines.length; i++) {
+        lines[i] = lines[i].replace(",", "@");
+        lines[i] = lines[i].substr(1);
 
-        var firstOcurrence = var1[i].indexOf("/");
-        var1[i] = var1[i].slice(firstOcurrence + 1);
+        var firstOcurrence = lines[i].indexOf("/");
+        lines[i] = lines[i].slice(firstOcurrence + 1);
 
-        var1[i] = var1[i].split("/");
+        lines[i] = lines[i].split("/");
     }
 
-    return returnFormat(var1);
+    return returnFormat(lines);
+}
+
+function tortoiseFormat(text) {
+    var lines = text.split("\n");
+    var revision = lines[0].split(":")[1].trim();
+
+    for (i = 0; i < lines.length; i++) {
+        lines[i] = lines[i].replace(".sql", ".sql@" + revision);
+
+        var firstOcurrence = lines[i].indexOf("/");
+        lines[i] = lines[i].slice(firstOcurrence + 1);
+
+        lines[i] = lines[i].split("/");
+        lines[i].shift();
+        lines[i].shift();
+    }
+
+    return returnFormat(lines);
 }
 
 function returnFormat(array) {
@@ -35,7 +54,7 @@ function returnFormat(array) {
 
     typeOfLine.forEach((type) => {
         for (i = 0; i < array.length; i++) {
-            if (array[i][1] == type) {
+            if (array[i].length > 1 && array[i][1] == type) {
                 arrayFormat.push(array[i]);
             }
         }
