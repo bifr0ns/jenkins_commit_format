@@ -59,14 +59,24 @@ function tortoiseFormat(text) {
 }
 
 function returnFormat(array) {
-    var typeOfLine = ["Packages", "PackageBodies", "Tables", "Scripts"];
-    var arrayFormat = [];
+    var typeOfLine = ["Tables", "Scripts", "Packages", "PackageBodies"],
+        typeOfPath = ["ACSEL", "SIMS_OWN"];
+    var arrayAfterPath = [],
+        arrayFormat = [];
     var newFormat = "";
 
-    typeOfLine.forEach((type) => {
+    typeOfPath.forEach((type) => {
         for (i = 0; i < array.length; i++) {
-            if (array[i].length > 1 && array[i][1] == type) {
-                arrayFormat.push(array[i]);
+            if (array[i].length > 1 && array[i][0] == type) {
+                arrayAfterPath.push(array[i]);
+            }
+        }
+    });
+
+    typeOfLine.forEach((type) => {
+        for (i = 0; i < arrayAfterPath.length; i++) {
+            if (arrayAfterPath[i].length > 1 && arrayAfterPath[i][1] == type) {
+                arrayFormat.push(arrayAfterPath[i]);
             }
         }
     });
