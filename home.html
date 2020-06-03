@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF8" />
+        <title>Enchorizador</title>
+        <script src="script.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+    <body>
+        <h3>Enchorizador 6000</h3>
+        <div>
+            <table>
+                <tr>
+                    <th>
+                        <textarea
+                            id="instructions"
+                            rows="10"
+                            cols="100"
+                        ></textarea>
+                    </th>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>
+                        Formato:
+                    </th>
+                    <th>
+                        <button id="btnSvn" onclick="giveFormat('svn');">
+                            SVN
+                        </button>
+                    </th>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>
+                        <textarea id="result" rows="5" cols="100"></textarea>
+                    </th>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>
+                        <button id="btnCopy" onclick="copy();">Copiar</button>
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
