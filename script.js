@@ -5,43 +5,54 @@ function giveFormat(editor) {
     if (text == "") return 0;
     textFormated = editor == "Smart" ? smartFormat(text) : tortoiseFormat(text);
 
-    if (textFormated.length > 0) {
-        result.style.visibility = "visible";
-        btnCopy.style.visibility = "visible";
+    result.style.visibility = "visible";
+    btnCopy.style.visibility = "visible";
 
-        result.value = textFormated;
-    }
+    result.value =
+        textFormated == "error" || textFormated.length == 0
+            ? "Error en el formato. Tal vez escogiste el formato mal."
+            : textFormated;
 }
 
 function smartFormat(text) {
-    var lines = text.split("\n");
+    try {
+        var lines = text.split("\n");
 
-    for (i = 0; i < lines.length; i++) {
-        lines[i] = lines[i].replace(",", "@");
-        lines[i] = lines[i].substr(1);
+        for (i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].replace(",", "@");
+            lines[i] = lines[i].substr(1);
 
-        var firstOcurrence = lines[i].indexOf("/");
-        lines[i] = lines[i].slice(firstOcurrence + 1);
+            var firstOcurrence = lines[i].indexOf("/");
+            lines[i] = lines[i].slice(firstOcurrence + 1);
 
-        lines[i] = lines[i].split("/");
+            lines[i] = lines[i].split("/");
+        }
+    } catch (error) {
+        console.error(error);
+        return "error";
     }
 
     return returnFormat(lines);
 }
 
 function tortoiseFormat(text) {
-    var lines = text.split("\n");
-    var revision = lines[0].split(":")[1].trim();
+    try {
+        var lines = text.split("\n");
+        var revision = lines[0].split(":")[1].trim();
 
-    for (i = 0; i < lines.length; i++) {
-        lines[i] = lines[i].replace(".sql", ".sql@" + revision);
+        for (i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].replace(".sql", ".sql@" + revision);
 
-        var firstOcurrence = lines[i].indexOf("/");
-        lines[i] = lines[i].slice(firstOcurrence + 1);
+            var firstOcurrence = lines[i].indexOf("/");
+            lines[i] = lines[i].slice(firstOcurrence + 1);
 
-        lines[i] = lines[i].split("/");
-        lines[i].shift();
-        lines[i].shift();
+            lines[i] = lines[i].split("/");
+            lines[i].shift();
+            lines[i].shift();
+        }
+    } catch (error) {
+        console.error(error);
+        return "error";
     }
 
     return returnFormat(lines);
